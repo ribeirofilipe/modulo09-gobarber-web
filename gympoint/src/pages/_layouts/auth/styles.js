@@ -15,7 +15,7 @@ export const Content = styled.div`
   max-width: 350px;
   text-align: center;
   background: #fff;
-  height: 53%;
+  height: auto;
   border-radius: 5px;
   padding: 30px;
 
