@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const Container = styled.div`
   margin: 80px auto;
   height: 100%;
-  max-width: 1200px;
+  max-width: 1380px;
 `;
+
 export const SubMenu = styled.div`
   display: flex;
   flex-direction: row;
@@ -34,14 +35,6 @@ export const Actions = styled.div`
     border-radius: 5px;
     color: #fff;
     font-weight: bold;
-    width: 20%;
-  }
-
-  input {
-    width: 40%;
-    margin-left: 15px;
-    border-radius: 5px;
-    border: 1px solid #dddddd;
-    padding: 5px 10px;
+    width: 18%;
   }
 `;

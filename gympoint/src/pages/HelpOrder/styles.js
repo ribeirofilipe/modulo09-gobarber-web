@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const Container = styled.div`
   margin: 80px auto;
   height: 100%;
-  max-width: 1200px;
+  max-width: 700px;
 `;
+
 export const SubMenu = styled.div`
   display: flex;
   flex-direction: row;

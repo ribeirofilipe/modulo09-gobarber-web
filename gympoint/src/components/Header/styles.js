@@ -32,11 +32,14 @@ export const Menu = styled.div`
 `;
 
 export const SubMenu = styled.ul`
-  color: #999999;
-  font-weight: bold;
+  a {
+    &:active {
+      background: #333;
+    }
 
-  span {
     transition: 0.5s;
+    color: #999999;
+    font-weight: bold;
 
     &:first-child {
       padding-left: 25px;

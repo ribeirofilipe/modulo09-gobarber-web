@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Menu, UserInfo, SubMenu } from './styles';
 import logo from '~/assets/logoHeader.svg';
@@ -20,10 +21,10 @@ export default function Header() {
         <p>GYMPOINT</p>
 
         <SubMenu>
-          <span>ALUNOS</span>
-          <span>PLANOS</span>
-          <span>MATRÍCULAS</span>
-          <span>PEDIDOS DE AUXÍLIO</span>
+          <Link to="/student">ALUNOS</Link>
+          <Link to="/plan">PLANOS</Link>
+          <Link to="/registration">MATRÍCULAS</Link>
+          <Link to="/help-order">PEDIDOS DE AUXÍLIO</Link>
         </SubMenu>
       </Menu>
 
