@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin: 80px auto;
+  margin: 30px auto;
   height: 100%;
   max-width: 900px;
 `;
@@ -25,6 +25,10 @@ export const SubMenu = styled.div`
 `;
 
 export const Actions = styled.div`
+  a {
+    color: #fff;
+  }
+
   display: flex;
   justify-content: flex-end;
   width: 100%;
@@ -33,7 +37,6 @@ export const Actions = styled.div`
     background: #ee4d64;
     padding: 10px;
     border-radius: 5px;
-    color: #fff;
     font-weight: bold;
     width: 26%;
   }

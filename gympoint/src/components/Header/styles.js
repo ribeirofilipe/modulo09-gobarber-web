@@ -33,10 +33,6 @@ export const Menu = styled.div`
 
 export const SubMenu = styled.ul`
   a {
-    &:active {
-      background: #333;
-    }
-
     transition: 0.5s;
     color: #999999;
     font-weight: bold;

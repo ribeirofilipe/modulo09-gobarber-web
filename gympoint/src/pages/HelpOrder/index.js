@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import api from '~/services/api';
 
 import {
-  StudentList,
+  List,
   Body,
   HeaderColumn,
   Head,
   Empty,
 } from '~/components/Table/styles';
-import { Container } from './styles';
+import { Container, SubMenu } from './styles';
 
 export default function Plan() {
   const [helpOrders, setHelpOrders] = useState([]);
@@ -25,9 +25,13 @@ export default function Plan() {
   }, []);
 
   return (
-    <Container width={800}>
+    <Container>
+      <SubMenu>
+        <p>Pedidos de auxílio</p>
+      </SubMenu>
+
       {helpOrders.length > 0 ? (
-        <StudentList>
+        <List>
           <Head>
             <HeaderColumn>
               <th>ALUNO</th>
@@ -37,14 +41,14 @@ export default function Plan() {
           <Body>
             {helpOrders.map(item => (
               <HeaderColumn key={item.student_id}>
-                <td>{item.student_id}</td>
+                <td>{item.student.name}</td>
                 <td>
-                  <Link to="/">Responsder</Link>
+                  <Link to="/">Responder</Link>
                 </td>
               </HeaderColumn>
             ))}
           </Body>
-        </StudentList>
+        </List>
       ) : (
         <Empty>Nada encontrado.</Empty>
       )}

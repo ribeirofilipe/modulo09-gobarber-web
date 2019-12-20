@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '~/services/api';
 
 import {
-  StudentList,
+  List,
   Body,
   HeaderColumn,
   Head,
@@ -29,12 +29,14 @@ export default function Plan() {
       <SubMenu>
         <p>Gerenciamento de planos</p>
         <Actions>
-          <button type="button">CADASTRAR</button>
+          <button type="button">
+            <Link to="register-plan">CADASTRAR</Link>
+          </button>
         </Actions>
       </SubMenu>
 
       {plans.length > 0 ? (
-        <StudentList>
+        <List>
           <Head>
             <HeaderColumn>
               <th>TÍTULO</th>
@@ -56,7 +58,7 @@ export default function Plan() {
               </HeaderColumn>
             ))}
           </Body>
-        </StudentList>
+        </List>
       ) : (
         <Empty>Nada encontrado.</Empty>
       )}

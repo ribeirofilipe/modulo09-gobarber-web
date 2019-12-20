@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin: 80px auto;
+  margin: 30px auto;
   height: 100%;
   max-width: 1200px;
 `;
@@ -32,9 +32,13 @@ export const Actions = styled.div`
     background: #ee4d64;
     padding: 10px;
     border-radius: 5px;
-    color: #fff;
     font-weight: bold;
     width: 20%;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
   }
 
   input {

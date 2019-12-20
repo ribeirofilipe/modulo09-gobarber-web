@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StudentList = styled.table`
+export const List = styled.table`
   padding: 20px;
   width: 100%;
   background: #fff;
@@ -10,10 +10,13 @@ export const StudentList = styled.table`
 export const HeaderColumn = styled.tr`
   width: 100%;
   display: flex;
-
+  align-items: center;
   font-size: 16px;
 
   td {
+    border-bottom: 1px solid #dddddd;
+    padding: 15px 0 15px 0;
+
     a {
       padding-right: 10px;
       color: #de3b3b;
@@ -38,8 +41,6 @@ export const Body = styled.tbody`
   td {
     font-size: 15px;
     width: 100%;
-    border-bottom: 1px solid #dddddd;
-    padding: 20px 0 20px 0;
     color: #666666;
     text-align: left;
   }

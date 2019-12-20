@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '~/services/api';
 
 import {
-  StudentList,
+  List,
   Body,
   HeaderColumn,
   Head,
@@ -46,7 +46,9 @@ export default function Student() {
       <SubMenu>
         <p>Gerenciamento de alunos</p>
         <Actions>
-          <button type="button">CADASTRAR</button>
+          <button type="button">
+            <Link to="/register-student">CADASTRAR</Link>
+          </button>
           <input
             onChange={e => setFilter(e.target.value)}
             placeholder="Buscar aluno"
@@ -55,7 +57,7 @@ export default function Student() {
       </SubMenu>
 
       {students.length > 0 ? (
-        <StudentList>
+        <List>
           <Head>
             <HeaderColumn>
               <th>NOME</th>
@@ -77,7 +79,7 @@ export default function Student() {
               </HeaderColumn>
             ))}
           </Body>
-        </StudentList>
+        </List>
       ) : (
         <Empty>Nada encontrado.</Empty>
       )}

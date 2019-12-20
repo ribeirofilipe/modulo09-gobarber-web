@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin: 80px auto;
+  margin: 30px auto;
   height: 100%;
   max-width: 1380px;
 `;
@@ -25,6 +25,10 @@ export const SubMenu = styled.div`
 `;
 
 export const Actions = styled.div`
+  a {
+    color: #fff;
+  }
+
   display: flex;
   justify-content: flex-end;
   width: 100%;
@@ -33,8 +37,20 @@ export const Actions = styled.div`
     background: #ee4d64;
     padding: 10px;
     border-radius: 5px;
-    color: #fff;
     font-weight: bold;
     width: 18%;
   }
+`;
+
+export const Status = styled.p.attrs(props => ({
+  status: props.status,
+}))`
+  background: ${props => (props.status ? '#7159c1' : '#ee4d64')};
+  width: 30%;
+  color: #fff !important;
+  border-radius: 7px;
+  padding: 0 10px 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

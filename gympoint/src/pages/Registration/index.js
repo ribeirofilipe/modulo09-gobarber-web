@@ -5,13 +5,13 @@ import pt from 'date-fns/locale/pt';
 import api from '~/services/api';
 
 import {
-  StudentList,
+  List,
   Body,
   HeaderColumn,
   Head,
   Empty,
 } from '~/components/Table/styles';
-import { Container, SubMenu, Actions } from './styles';
+import { Container, SubMenu, Actions, Status } from './styles';
 
 export default function Registration() {
   const [registrations, setRegistrations] = useState([]);
@@ -45,12 +45,14 @@ export default function Registration() {
       <SubMenu>
         <p>Gerenciamento de matrículas</p>
         <Actions>
-          <button type="button">CADASTRAR</button>
+          <button type="button">
+            <Link to="register-registration">CADASTRAR</Link>
+          </button>
         </Actions>
       </SubMenu>
 
       {registrations.length > 0 ? (
-        <StudentList>
+        <List>
           <Head>
             <HeaderColumn>
               <th>ALUNO</th>
@@ -68,7 +70,11 @@ export default function Registration() {
                 <td>{item.plan.title}</td>
                 <td>{item.startDate}</td>
                 <td>{item.endDate}</td>
-                <td>{item.active ? 'Ativo' : 'Inativo'}</td>
+                <td>
+                  <Status status={item.active}>
+                    {item.active ? 'Ativo' : 'Inativo'}
+                  </Status>
+                </td>
                 <td>
                   <Link to="/">Editar</Link>
                   <Link to="/">Deletar</Link>
@@ -76,7 +82,7 @@ export default function Registration() {
               </HeaderColumn>
             ))}
           </Body>
-        </StudentList>
+        </List>
       ) : (
         <Empty>Nada encontrado.</Empty>
       )}
