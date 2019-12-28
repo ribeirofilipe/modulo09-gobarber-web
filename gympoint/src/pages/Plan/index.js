@@ -18,7 +18,12 @@ export default function Plan() {
     async function loadPlans() {
       const response = await api.get('plans');
 
-      setPlans(response.data);
+      const data = response.data.map(plan => ({
+        ...plan,
+        formattedPrice: `R$ ${plan.price}`,
+      }));
+
+      setPlans(data);
     }
 
     loadPlans();
@@ -47,12 +52,12 @@ export default function Plan() {
           </Head>
           <Body>
             {plans.map(item => (
-              <HeaderColumn key={item.title}>
+              <HeaderColumn key={item.id}>
                 <td>{item.title}</td>
                 <td>{item.duration}</td>
-                <td>{item.price}</td>
+                <td>{item.formattedPrice}</td>
                 <td>
-                  <Link to="/">Editar</Link>
+                  <Link to={{ pathname: `edit-plan/${item.id}` }}>Editar</Link>
                   <Link to="/">Deletar</Link>
                 </td>
               </HeaderColumn>

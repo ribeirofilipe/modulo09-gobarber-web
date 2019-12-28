@@ -26,7 +26,13 @@ export default function Routes() {
       <Route path="/registration" component={Registration} isPrivate />
       <Route path="/help-order" component={HelpOrder} isPrivate />
       <Route path="/register-student" component={StudentCreate} isPrivate />
-      <Route path="/register-plan" component={PlanCreate} isPrivate />
+      <Route
+        path="/register-plan"
+        component={PlanCreate}
+        isPrivate
+        isEdition={false}
+      />
+      <Route path="/edit-plan/:id" component={PlanCreate} isPrivate isEdition />
       <Route
         path="/register-registration"
         component={RegistrationCreate}

@@ -10,6 +10,7 @@ import { store } from '~/store';
 export default function RouteWrapper({
   component: Component,
   isPrivate,
+  isEdition,
   ...rest
 }) {
   const { signed } = store.getState().auth;
@@ -29,7 +30,7 @@ export default function RouteWrapper({
       {...rest}
       render={props => (
         <Layout>
-          <Component {...props} />
+          <Component isEdition={isEdition} {...props} />
         </Layout>
       )}
     />
