@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import CurrencyInput from '@pismo/react-currency-input';
 import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
@@ -8,6 +10,12 @@ import { Container, Details } from '~/components/Container/styles';
 import { Header, Actions } from '~/components/Form/styles';
 import api from '~/services/api';
 import history from '~/services/history';
+import { formatPrice } from '~/services/format';
+import {
+  updateRequest,
+  getRequest,
+  addRequest,
+} from '~/store/modules/plan/actions';
 
 export default function PlanCreate({ isEdition, match }) {
   const schema = Yup.object().shape({
@@ -22,53 +30,40 @@ export default function PlanCreate({ isEdition, match }) {
     height: Yup.number().required(),
   });
 
-  const { id } = match.params;
+  const dispatch = useDispatch();
 
-  const [title, setTitle] = useState('');
-  const [duration, setDuration] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [currentPlan, setCurrentPlan] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const plan = useSelector(state => state.plan.plan);
+
+  const { id } = match.params;
+
   useEffect(() => {
-    async function loadPlan() {
-      const response = await api.get(`plan/${id}`);
+    dispatch(getRequest(id));
+    setCurrentPlan(plan);
 
-      const data = {
-        ...response.data,
-        totalPrice: `R$ ${response.data.price * response.data.duration}`,
-      };
-
-      setDuration(data.duration);
-      setPrice(data.price);
-      setTitle(data.title);
-      setTotalPrice(data.totalPrice);
-    }
-
-    if (isEdition) {
-      loadPlan();
-    }
-  }, [id, isEdition]);
+    // eslint-disable-next-line
+  }, []);
 
   async function handleAddPlan() {
-    await api.post('plans', {
-      title,
-      duration,
-      price,
-    });
-
-    history.push('/plan');
-    toast.success('Plano inserido com sucesso!');
+    dispatch(
+      addRequest({
+        price: plan.price,
+        duration: plan.duration,
+        title: plan.title,
+      })
+    );
   }
 
   async function handleUpdatePlan() {
-    await api.put(`plans/${id}`, {
-      title,
-      duration,
-      price,
-    });
-
-    history.push('/plan');
-    toast.success('Plano atualizado com sucesso!');
+    dispatch(
+      updateRequest({
+        price: plan.price,
+        duration: plan.duration,
+        title: plan.title,
+      })
+    );
   }
 
   return (
@@ -93,20 +88,20 @@ export default function PlanCreate({ isEdition, match }) {
           <p>TÍTULO DO PLANO</p>
           <Input
             name="title"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
+            value={plan.title}
+            onChange={e => setCurrentPlan({ ...plan, title: e.target.value })}
           />
 
           <Details spanWidth={32}>
             <span>
               <p>DURAÇÃO (em meses)</p>
               <Input
-                name="age"
+                name="duration"
                 type="number"
-                value={duration}
+                value={plan.duration}
                 onChange={e => {
-                  setDuration(e.target.value);
-                  setTotalPrice(`R$ ${e.target.value * price}`);
+                  setCurrentPlan({ ...plan, duration: e.target.value });
+                  setTotalPrice(plan.price * e.target.value);
                 }}
               />
             </span>
@@ -114,18 +109,23 @@ export default function PlanCreate({ isEdition, match }) {
             <span>
               <p>PREÇO MENSAL</p>
               <Input
-                name="weight"
-                value={price}
+                name="price"
+                value={plan.price}
                 onChange={e => {
-                  setPrice(e.target.value);
-                  setTotalPrice(`R$ ${e.target.value * duration}`);
+                  setCurrentPlan({ ...plan, price: e.target.value });
+                  setTotalPrice(e.target.value * plan.duration);
                 }}
               />
             </span>
 
             <span>
               <p>PREÇO TOTAL</p>
-              <Input disabled name="height" value={totalPrice} />
+              <Input
+                disabled
+                type="money"
+                name="totalPrice"
+                value={totalPrice}
+              />
             </span>
           </Details>
         </Form>
