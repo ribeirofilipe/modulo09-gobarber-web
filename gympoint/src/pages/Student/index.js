@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import api from '~/services/api';
+import { deleteRequest } from '~/store/modules/student/actions';
 
 import {
   List,
@@ -15,6 +17,10 @@ export default function Student() {
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [filter, setFilter] = useState('');
+  
+  const dispatch = useDispatch();
+
+  const isDeleting = useSelector(state => state.student.isDeleting);
 
   useEffect(() => {
     async function loadStudents() {
@@ -25,7 +31,7 @@ export default function Student() {
 
     loadStudents();
     // eslint-disable-next-line
-  }, []);
+  }, [isDeleting]);
 
   useEffect(() => {
     if (!filteredStudents[0]) {
@@ -40,6 +46,10 @@ export default function Student() {
     }
     // eslint-disable-next-line
   }, [filter]);
+
+  async function handleDeleteStudent(id) {
+    dispatch(deleteRequest(id));
+  }
 
   return (
     <Container>
@@ -73,8 +83,8 @@ export default function Student() {
                 <td>{item.email}</td>
                 <td>{item.age}</td>
                 <td>
-                  <Link to="/">Editar</Link>
-                  <Link to="/">Deletar</Link>
+                  <Link to={{ pathname: `edit-student/${item.id}` }}>Editar</Link>
+                  <Link to="" onClick={() => handleDeleteStudent(item.id)}>Deletar</Link>
                 </td>
               </HeaderColumn>
             ))}

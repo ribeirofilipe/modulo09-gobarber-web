@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import CurrencyInput from '@pismo/react-currency-input';
 import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
-import { toast } from 'react-toastify';
 import { Container, Details } from '~/components/Container/styles';
 import { Header, Actions } from '~/components/Form/styles';
 import api from '~/services/api';
-import history from '~/services/history';
-import { formatPrice } from '~/services/format';
 import {
   updateRequest,
-  getRequest,
   addRequest,
 } from '~/store/modules/plan/actions';
+import { formatPrice, formatToNumber } from '~/services/format';
 
 export default function PlanCreate({ isEdition, match }) {
   const schema = Yup.object().shape({
@@ -32,26 +28,43 @@ export default function PlanCreate({ isEdition, match }) {
 
   const dispatch = useDispatch();
 
-  const [currentPlan, setCurrentPlan] = useState({});
+  const [duration, setDuration] = useState(0);
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-
-  const plan = useSelector(state => state.plan.plan);
 
   const { id } = match.params;
 
   useEffect(() => {
-    dispatch(getRequest(id));
-    setCurrentPlan(plan);
+    async function loadPlan() {
+      const response = await api.get(`plan/${id}`);
 
+      if (response) {
+        const { title, price, duration } = response.data;
+      
+        setPrice(formatPrice(price));
+        setDuration(duration);
+        setTitle(title);
+        setTotalPrice(formatPrice(price * duration));
+      }
+    }
+
+    loadPlan();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (price && duration) {
+      setTotalPrice(formatPrice(formatToNumber(price) * duration));    
+    }
+  }, [price, duration])
 
   async function handleAddPlan() {
     dispatch(
       addRequest({
-        price: plan.price,
-        duration: plan.duration,
-        title: plan.title,
+        price,
+        duration,
+        title,
       })
     );
   }
@@ -59,9 +72,10 @@ export default function PlanCreate({ isEdition, match }) {
   async function handleUpdatePlan() {
     dispatch(
       updateRequest({
-        price: plan.price,
-        duration: plan.duration,
-        title: plan.title,
+        id,
+        price: formatToNumber(price),
+        duration,
+        title,
       })
     );
   }
@@ -71,9 +85,12 @@ export default function PlanCreate({ isEdition, match }) {
       <Header>
         <p>{isEdition ? 'Edição de plano' : 'Novo plano'}</p>
         <Actions>
-          <button type="button">
-            <Link to="plan">CANCELAR</Link>
-          </button>
+         
+            <Link to="/plan">
+              <button type="button">
+                CANCELAR
+              </button>
+            </Link>
           <button
             onClick={isEdition ? handleUpdatePlan : handleAddPlan}
             type="button"
@@ -88,8 +105,8 @@ export default function PlanCreate({ isEdition, match }) {
           <p>TÍTULO DO PLANO</p>
           <Input
             name="title"
-            value={plan.title}
-            onChange={e => setCurrentPlan({ ...plan, title: e.target.value })}
+            value={title}
+            onChange={e => setTitle(e.target.value)} 
           />
 
           <Details spanWidth={32}>
@@ -98,11 +115,8 @@ export default function PlanCreate({ isEdition, match }) {
               <Input
                 name="duration"
                 type="number"
-                value={plan.duration}
-                onChange={e => {
-                  setCurrentPlan({ ...plan, duration: e.target.value });
-                  setTotalPrice(plan.price * e.target.value);
-                }}
+                value={duration} 
+                onChange={e => setDuration(e.target.value)}
               />
             </span>
 
@@ -110,11 +124,8 @@ export default function PlanCreate({ isEdition, match }) {
               <p>PREÇO MENSAL</p>
               <Input
                 name="price"
-                value={plan.price}
-                onChange={e => {
-                  setCurrentPlan({ ...plan, price: e.target.value });
-                  setTotalPrice(e.target.value * plan.duration);
-                }}
+                value={price}
+                onChange={e => setPrice(e.target.value)}
               />
             </span>
 

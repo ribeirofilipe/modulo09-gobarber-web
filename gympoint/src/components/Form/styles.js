@@ -28,6 +28,12 @@ export const Actions = styled.div`
   align-items: center;
   width: 100%;
 
+  a {
+    button {
+      width: 90%;
+    }
+  }
+
   button {
     :not(:first-child) {
       background: #ee4d64;

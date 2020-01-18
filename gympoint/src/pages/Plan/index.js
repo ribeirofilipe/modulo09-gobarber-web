@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '~/services/api';
+import { formatPrice } from '~/services/format';
 
 import {
   List,
@@ -20,7 +21,8 @@ export default function Plan() {
 
       const data = response.data.map(plan => ({
         ...plan,
-        formattedPrice: `R$ ${plan.price}`,
+        formattedPrice: formatPrice(plan.price),
+        formattedDuration: plan.duration !== 1 ? `${plan.duration} meses` : `${plan.duration} mês`
       }));
 
       setPlans(data);
@@ -54,7 +56,7 @@ export default function Plan() {
             {plans.map(item => (
               <HeaderColumn key={item.id}>
                 <td>{item.title}</td>
-                <td>{item.duration}</td>
+                <td>{item.formattedDuration}</td>
                 <td>{item.formattedPrice}</td>
                 <td>
                   <Link to={{ pathname: `edit-plan/${item.id}` }}>Editar</Link>

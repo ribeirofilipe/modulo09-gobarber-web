@@ -12,20 +12,6 @@ export function addSuccess(data) {
   };
 }
 
-export function getRequest(id) {
-  return {
-    type: '@plan/GET_REQUEST',
-    id,
-  };
-}
-
-export function getSuccess(data) {
-  return {
-    type: '@plan/GET_SUCCESS',
-    payload: { data },
-  };
-}
-
 export function updateRequest(data) {
   return {
     type: '@plan/UPDATE_REQUEST',

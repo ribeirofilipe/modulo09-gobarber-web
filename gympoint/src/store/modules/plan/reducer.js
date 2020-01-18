@@ -2,7 +2,6 @@ import produce from 'immer';
 
 const INITIAL_STATE = {
   loading: false,
-  plan: {},
 };
 
 export default function user(state = INITIAL_STATE, action) {
@@ -16,21 +15,12 @@ export default function user(state = INITIAL_STATE, action) {
         draft.loading = false;
         break;
       }
-      case '@plan/GET_REQUEST': {
-        draft.loading = true;
-        break;
-      }
-      case '@plan/GET_SUCCESS': {
-        draft.plan = action.payload.data.data;
-        draft.loading = false;
-        break;
-      }
       case '@plan/ADD_REQUEST': {
         draft.loading = true;
         break;
       }
       case '@plan/ADD_SUCCESS': {
-        draft.loading = true;
+        draft.loading = false;
         break;
       }
       default:
