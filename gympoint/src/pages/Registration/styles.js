@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import AsyncSelect from 'react-select/async';
 
 export const Container = styled.div`
   margin: 30px auto;
   height: 100%;
   max-width: 1380px;
+  
 `;
 
 export const SubMenu = styled.div`
@@ -53,4 +55,18 @@ export const Status = styled.p.attrs(props => ({
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const Select = styled(AsyncSelect)`
+    .css-yk16xz-control {
+      padding: 2.8px 0 2.8px 0;
+    }
+
+    margin-bottom: 10px;
+    padding-top: 10px;
+
+  :last-child {
+    margin-top: 10px;
+    padding-top: 0;
+  }
 `;

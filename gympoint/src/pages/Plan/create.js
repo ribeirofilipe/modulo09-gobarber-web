@@ -104,6 +104,7 @@ export default function PlanCreate({ isEdition, match }) {
         <Form schema={schema}>
           <p>TÍTULO DO PLANO</p>
           <Input
+            className="input-form"
             name="title"
             value={title}
             onChange={e => setTitle(e.target.value)} 
@@ -113,6 +114,7 @@ export default function PlanCreate({ isEdition, match }) {
             <span>
               <p>DURAÇÃO (em meses)</p>
               <Input
+                className="input-form"
                 name="duration"
                 type="number"
                 value={duration} 
@@ -123,6 +125,7 @@ export default function PlanCreate({ isEdition, match }) {
             <span>
               <p>PREÇO MENSAL</p>
               <Input
+                className="input-form"
                 name="price"
                 value={price}
                 onChange={e => setPrice(e.target.value)}
@@ -132,6 +135,7 @@ export default function PlanCreate({ isEdition, match }) {
             <span>
               <p>PREÇO TOTAL</p>
               <Input
+                className="input-form"
                 disabled
                 type="money"
                 name="totalPrice"

@@ -26,7 +26,7 @@ export default function Student() {
     async function loadStudents() {
       const response = await api.get('/students');
 
-      setStudents(response.data);
+      setStudents(response.data.data);
     }
 
     loadStudents();

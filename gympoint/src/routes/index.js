@@ -38,8 +38,14 @@ export default function Routes() {
         path="/register-registration"
         component={RegistrationCreate}
         isPrivate
+        isEdition={false}
       />
-
+      <Route
+        path="/edit-registration/:id"
+        component={RegistrationCreate}
+        isPrivate
+        isEdition={true}
+      />
       <Route path="/" component={() => <h1>404 NOT FOUND</h1>} />
     </Switch>
   );

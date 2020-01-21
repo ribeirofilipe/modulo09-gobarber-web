@@ -103,6 +103,7 @@ export default function StudentCreate({ isEdition, match }) {
         <Form schema={schema}>
           <p>NOME COMPLETO</p>
           <Input
+            className="input-form"
             name="name"
             value={name} 
             onChange={e => setName(e.target.value)}
@@ -110,6 +111,7 @@ export default function StudentCreate({ isEdition, match }) {
 
           <p>ENDEREÇO DE E-MAIL</p>
           <Input
+            className="input-form"
             name="email"
             type="email"
             value={email} 
@@ -119,6 +121,7 @@ export default function StudentCreate({ isEdition, match }) {
             <span>
               <p>IDADE</p>
               <Input
+                className="input-form"
                 name="age"
                 type="number"
                 value={age} 
@@ -129,6 +132,7 @@ export default function StudentCreate({ isEdition, match }) {
             <span>
               <p>PESO (em kg)</p>
               <Input
+                className="input-form"
                 name="weight"
                 type="number"
                 value={weight} 
@@ -139,6 +143,7 @@ export default function StudentCreate({ isEdition, match }) {
             <span>
               <p>ALTURA</p>
               <Input
+                className="input-form"
                 name="height"
                 type="number"
                 value={height} 

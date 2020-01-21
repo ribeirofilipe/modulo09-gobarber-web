@@ -1,9 +1,24 @@
 import { takeLatest, put, call, all } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
-import { updateSuccess, addSuccess } from './actions';
+import { updateSuccess, addSuccess, deleteSuccess } from './actions';
 
 import api from '~/services/api';
 import history from '~/services/history';
+
+export function* deletePlan({ payload }) {
+  try {
+    const { id } = payload;
+
+    yield call(api.delete, `plan/${id}`, payload);
+
+    yield put(deleteSuccess(payload));
+
+    history.push('/plan');
+    toast.success('Plano deletado com sucesso!');
+  } catch (err) {
+    toast.error('Falha ao deletar o Plano!');
+  }
+}
 
 export function* updatePlan({ payload }) {
   try {
@@ -40,4 +55,5 @@ export function* addPlan({ payload }) {
 export default all([
   takeLatest('@plan/UPDATE_REQUEST', updatePlan),
   takeLatest('@plan/ADD_REQUEST', addPlan),
+  takeLatest('@plan/DELETE_REQUEST', deletePlan),
 ]);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '~/services/api';
 import { formatPrice } from '~/services/format';
+import { deleteRequest } from '~/store/modules/plan/actions';
 
 import {
   List,
@@ -11,10 +12,13 @@ import {
   Empty,
 } from '~/components/Table/styles';
 import { Container, SubMenu, Actions } from './styles';
+import { useDispatch } from 'react-redux';
 
 export default function Plan() {
   const [plans, setPlans] = useState([]);
 
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     async function loadPlans() {
       const response = await api.get('plans');
@@ -30,6 +34,10 @@ export default function Plan() {
 
     loadPlans();
   }, []);
+
+  async function handleDeletePlan(id) {
+    dispatch(deleteRequest(id));
+  }
 
   return (
     <Container>
@@ -60,7 +68,7 @@ export default function Plan() {
                 <td>{item.formattedPrice}</td>
                 <td>
                   <Link to={{ pathname: `edit-plan/${item.id}` }}>Editar</Link>
-                  <Link to="/">Deletar</Link>
+                  <Link to="" onClick={() => handleDeletePlan(item.id)}>Deletar</Link>
                 </td>
               </HeaderColumn>
             ))}

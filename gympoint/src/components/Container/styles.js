@@ -16,11 +16,11 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
 
-    input {
+    .input-form {
       border: 1px solid #dddddd;
       border-radius: 4px;
       margin: 10px 10px 10px 0;
-      height: 45px;
+      height: 45px; 
       padding: 10px;
     }
   }

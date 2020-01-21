@@ -25,3 +25,17 @@ export function updateSuccess(data) {
     payload: { data },
   };
 }
+
+export function deleteRequest(id) {
+  return {
+    type: '@plan/DELETE_REQUEST',
+    payload: { id },
+  };
+}
+
+export function deleteSuccess(id) {
+  return {
+    type: '@plan/DELETE_SUCCESS',
+    payload: { id },
+  };
+}
