@@ -46,3 +46,38 @@ export const Actions = styled.div`
     padding: 5px 10px;
   }
 `;
+
+export const ModalDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const Title = styled.p`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 15px 0 10px 0;
+`;
+
+export const Text = styled.p`
+  font-weight: normal;
+  font-size: 16px;
+  margin-bottom: 10px;
+`;
+
+export const AwnserButton = styled.button`
+  background: #EE4D64;
+  border: 0;
+  padding: 8px;
+  border-radius: 5px;
+  color: #FFF;
+  font-weight: bold;
+  width: 100%;
+  height: 45px;
+`;
+
+export const TextArea = styled.textarea`
+  height: 100%;
+  width: 100%;
+  border: 1px solid #eee;
+`;

@@ -30,9 +30,9 @@ export default function RegistrationCreate({ isEdition, match }) {
 
   const { id } = match.params;
 
-  const [studentId, setStudent] = useState(0);
+  const [student, setStudent] = useState({});
   const [plans, setPlans] = useState([]);
-  const [planId, setPlan] = useState(0);
+  const [plan, setPlan] = useState({});
   const [startDate, setStartDate] = useState(new Date());
   const [finishDate, setFinishDate] = useState(new Date());
   const [finalValue, setFinalValue] = useState('');
@@ -65,13 +65,16 @@ export default function RegistrationCreate({ isEdition, match }) {
     if (isEdition) {
       async function loadStudent() {
         const response = await api.get(`registration/${id}`);
-        
+
         if (response) {
-          const { name, email, startDate, price, active } = response.data;
-        
-          setStudent(name);
-          setPlan(email);
-          setStartDate(startDate);
+          const { start_date } = response.data;
+          const { id: studentId, name } = response.data.student;
+          const { id: planId, title, duration, price } = response.data.plan;
+
+          setStudent({ value: studentId, label: name }); 
+          setPlan({ value: planId, label: title });
+          setStartDate(format(new Date(start_date), 'yyyy-MM-dd'));
+          setFinalValue(formatPrice(duration * price));
         }
       }
   
@@ -83,8 +86,8 @@ export default function RegistrationCreate({ isEdition, match }) {
   async function handleAddRegistration() {
     dispatch(
       addRequest({
-        studentId,
-        planId,
+        studentId: student.value,
+        planId: plan.value,
         startDate,
       })
     );
@@ -93,37 +96,40 @@ export default function RegistrationCreate({ isEdition, match }) {
   async function handleUpdateRegistration() {
     dispatch(
       updateRequest({
-        studentId: 1,
-        planId: 2,
+        studentId: student.value,
+        planId: plan.value,
         startDate,
-      }, id)
+        id
+      })
     );
   }
 
   function handleChangePlan(e) {
-    setPlan(e);
+    setPlan({ value: e.value, label: e.label });
 
-    const plan = plans.filter(plan => plan.id === e);
+    const plan = plans.filter(plan => plan.id === e.value);
 
     setFinalValue(formatPrice(plan[0].duration * plan[0].price));
   }
 
   useMemo(() => {
-    if (startDate && planId) {
-      const plan = plans.filter(plan => plan.id === planId);
+    if (startDate && plan.value) {
+      const newPlan = plans.filter(x => x.id === plan.value);
 
-      const planFinishDate = format(addDays(new Date(startDate), (plan[0].duration * 30)), 'yyyy-MM-dd');
+      console.log(newPlan);
+
+      const planFinishDate = format(addDays(new Date(startDate), (newPlan[0].duration * 30)), 'yyyy-MM-dd');
 
       return setFinishDate(planFinishDate);
     }
-  }, [startDate])
+  }, [startDate, plan, plans])
 
   return (
     <>
       <Header>
-        <p>Edição de matrícula</p>
+        <p>{isEdition ? 'Edição de matrícula' : 'Nova matrícula'}</p>
         <Actions>
-        <Link to="/student">
+        <Link to="/registration">
               <button type="button">
                 CANCELAR
               </button>
@@ -144,7 +150,8 @@ export default function RegistrationCreate({ isEdition, match }) {
            cacheOptions
            loadOptions={loadStudents}
            defaultOptions 
-           onChange={e => setStudent(e.value)}
+           value={student}
+           onChange={e => setStudent({ value: e.value, label: e.label})}
            />
           <Details spanWidth={23.5}>
             <span>
@@ -153,17 +160,18 @@ export default function RegistrationCreate({ isEdition, match }) {
                 cacheOptions
                 loadOptions={loadPlans}
                 defaultOptions  
-                onChange={e => handleChangePlan(e.value)}
+                value={plan}
+                onChange={e => handleChangePlan(e)}
               />
             </span>
 
             <span>
               <p>DATA DE INÍCIO</p>
               <Input
+                value={startDate} 
                 className="input-form"
                 name="startDate"
                 type="date"
-                value={startDate} 
                 onChange={e => setStartDate(e.target.value)}
               />
             </span>

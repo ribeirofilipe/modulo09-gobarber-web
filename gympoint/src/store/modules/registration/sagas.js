@@ -22,9 +22,9 @@ export function* deleteRegistration({ payload }) {
 
 export function* updateRegistration({ payload }) {
   try {
-    const { id } = payload;
+    const { planId, studentId, startDate, id } = payload.data;
 
-    yield call(api.put, `registration/${id}`, payload);
+    yield call(api.put, `registration/${id}?plan_id=${planId}&student_id=${studentId}`, { start_date: startDate });
 
     yield put(updateSuccess(payload));
 
@@ -41,9 +41,6 @@ export function* addRegistration({ payload }) {
 
     const response = yield call(api.post, `registration?plan_id=${planId}&student_id=${studentId}`, { start_date: startDate } );
 
-
-    console.log(response);
-    
     yield put(addSuccess(response));
 
     history.push('/registration');

@@ -12,10 +12,10 @@ export function addRequest(data) {
     };
   }
   
-  export function updateRequest(data, id) {
+  export function updateRequest(data) {
     return {
       type: '@registration/UPDATE_REQUEST',
-      payload: { data, id },
+      payload: { data },
     };
   }
   

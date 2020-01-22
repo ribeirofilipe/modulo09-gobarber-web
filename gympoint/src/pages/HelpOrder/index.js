@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '~/services/api';
+import SimpleModal from './modal';
 
 import {
   List,
@@ -30,6 +31,8 @@ export default function Plan() {
         <p>Pedidos de auxílio</p>
       </SubMenu>
 
+      
+
       {helpOrders.length > 0 ? (
         <List>
           <Head>
@@ -43,7 +46,7 @@ export default function Plan() {
               <HeaderColumn key={item.student_id}>
                 <td>{item.student.name}</td>
                 <td>
-                  <Link to="/">Responder</Link>
+                  <SimpleModal question={item.question} studentId={item._id} />
                 </td>
               </HeaderColumn>
             ))}

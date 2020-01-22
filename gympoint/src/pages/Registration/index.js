@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import api from '~/services/api';
+import { deleteRequest } from '~/store/modules/registration/actions';
 
 import {
   List,
@@ -15,6 +17,8 @@ import { Container, SubMenu, Actions, Status } from './styles';
 
 export default function Registration() {
   const [registrations, setRegistrations] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadRegistrations() {
@@ -39,6 +43,10 @@ export default function Registration() {
 
     loadRegistrations();
   }, []);
+
+  async function handleDeleteRegistration(id) {
+    dispatch(deleteRequest(id));
+  }
 
   return (
     <Container>
@@ -76,8 +84,8 @@ export default function Registration() {
                   </Status>
                 </td>
                 <td>
-                  <Link to="/">Editar</Link>
-                  <Link to="/">Deletar</Link>
+                  <Link to={{ pathname: `edit-registration/${item.id}` }}>Editar</Link>
+                  <Link to="" onClick={() => handleDeleteRegistration(item.id)}>Deletar</Link>
                 </td>
               </HeaderColumn>
             ))}
