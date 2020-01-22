@@ -80,4 +80,12 @@ export const TextArea = styled.textarea`
   height: 100%;
   width: 100%;
   border: 1px solid #eee;
+  padding: 12px;
+  font-family: 'Roboto';
+`;
+
+export const OpenModalButton = styled.button`
+  background: #FFF;
+  border: 0;
+  color: #4D85EE;
 `;

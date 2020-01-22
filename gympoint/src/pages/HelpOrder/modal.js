@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import { Title, Text, AwnserButton, ModalDiv, TextArea } from './styles';
+import { Title, Text, AwnserButton, ModalDiv, TextArea, OpenModalButton } from './styles';
 import api from '~/services/api';
+import { updateRequest } from '~/store/modules/help-order/actions';
 
 function getModalStyle() {
   const top = 50;
@@ -26,19 +28,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-async function handleAnwserStudent(id, answer) {
-    const response = api.put(`help-orders/${id}/answer`, {
-        answer
-    });
-}
-
 export default function SimpleModal({ question, orderId }) {
   const [answer, setAnswer] = useState('');
 
+  const dispatch = useDispatch();
+
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+
+  function handleSendStudentAwnser(data) {
+      dispatch(updateRequest(data));
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -50,9 +51,9 @@ export default function SimpleModal({ question, orderId }) {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
-      </button>
+      <OpenModalButton type="button" onClick={handleOpen}>
+        Responder
+      </OpenModalButton>
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -72,7 +73,10 @@ export default function SimpleModal({ question, orderId }) {
                onChange={e => setAnswer(e.target.value)} 
             />
           </div>
-          <AwnserButton onClick={() => handleAnwserStudent(orderId, answer)}>
+          <AwnserButton onClick={() => {
+              handleSendStudentAwnser({ orderId, answer });
+              handleClose();
+          }}>
               Responder aluno
         </AwnserButton>
         </ModalDiv>

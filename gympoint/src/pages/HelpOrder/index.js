@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import api from '~/services/api';
 import SimpleModal from './modal';
 
@@ -13,6 +13,8 @@ import {
 import { Container, SubMenu } from './styles';
 
 export default function Plan() {
+  const reload = useSelector(state => state.helpOrder.reload);
+
   const [helpOrders, setHelpOrders] = useState([]);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function Plan() {
     }
 
     loadPlans();
-  }, []);
+  }, [reload]);
 
   return (
     <Container>
@@ -46,7 +48,7 @@ export default function Plan() {
               <HeaderColumn key={item.student_id}>
                 <td>{item.student.name}</td>
                 <td>
-                  <SimpleModal question={item.question} studentId={item._id} />
+                  <SimpleModal question={item.question} orderId={item.id} />
                 </td>
               </HeaderColumn>
             ))}
